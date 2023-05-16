@@ -1,0 +1,49 @@
+#!/bin/bash
+
+echo "HELLO BUDDY! Just find out intersting things through log files in linux..."
+
+echo "LET'S GOOOOO !!!"
+echo "---------------------------------------------------"
+
+
+    echo "OKAY!"
+    outputfile="/home/kali/report/$(date +"%Y-%m-%d_%H-%M-%S").txt"
+    last_login=$(last)
+    bad_attempt=$(lastb /var/log/btmp)
+    current_user=$(w)
+    wt=$(last /var/log/wtmp)
+    up_time=$(uptime)
+    last_reboot=$(last reboot)
+
+    echo "Do you want to know about packages? (Y/N)"
+    read input
+
+    if [ "$input" == "Y" ]; then
+        echo "Enter the package name:"
+        read package
+        package_present=$(grep -m10 "$package" /var/log/dpkg.log)
+    else
+        echo "OKAY!"
+        package_present="You have no package to search!"
+    fi
+    # Store data in the output file
+    echo "Log analysis results:" > "$outputfile"
+    echo "--------------------------------------------------------------------------------------" >> "$outputfile"
+    echo "Last login details: " >> "$outputfile"
+    echo "$last_login" >> "$outputfile"
+    echo "--------------------------------------------------------------------------------------" >> "$outputfile"
+    echo "Last bad login attempts: $bad_attempt" >> "$outputfile"
+    echo "--------------------------------------------------------------------------------------" >> "$outputfile"
+    echo "Current user info: $current_user" >> "$outputfile"
+    echo "--------------------------------------------------------------------------------------" >> "$outputfile"
+    echo "Login records: $wt" >> "$outputfile"
+    echo "--------------------------------------------------------------------------------------" >> "$outputfile"
+    echo "uptime of machine : $up_time" >> "$outputfile"
+    echo "--------------------------------------------------------------------------------------" >> "$outputfile"
+    echo "last reboot details: " >> "$outputfile"
+    echo "$last_reboot" >> "$outputfile"
+    echo "---------------------" >> "$outputfile"
+    echo "package you searched for (first 10 lines ): $package_present" >> "$outputfile"
+    echo "--------------------------------------------------------------------------------------" >> "$outputfile"
+
+
